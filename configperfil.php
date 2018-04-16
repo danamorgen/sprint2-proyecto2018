@@ -59,21 +59,11 @@ require_once('funciones.php');
 
 
       </div>
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+     <div class="col-12 col-sm-6 col-md-3 col-lg-3">
           <div>
-              <button class="toggle-nav d-md-none d-lg-none mt-2">
-                                <span class="ion-navicon-round"></span>
-                              </button>
-              <nav class="main-nav d-md-none d-lg-none" style="display: none;">
-                  <ul>
-                      <li><a href="faq.php">preguntas frecuentes</a></li>
-                      <li><a href="#">seguridad</a></li>
-                      <li><a href="#ancla-contacto">contacto</a></li>
-                      <li><a href="#">idioma</a></li>
-                    </ul>
-              </nav>
-              <a href="configperfil.php" class="btn  mt-1">Configuración</a>
-	              <a href="logout.php" class="btn  mt-1">Cerrar Sesión</a>
+        
+              <a href="configperfil.php" class="btn  btn-outline-light mt-1">Configuración</a>
+	              <a href="logout.php" class="btn  btn-outline-light  mt-1">Cerrar Sesión</a>
 
           </div>
       </div>
@@ -82,70 +72,73 @@ require_once('funciones.php');
 
 <!-- PROFILE PROFILE PROFILE -->
 
-<div class="grid-container p-5 mt-5">
+<div class="fluicontainer p-5 mt-5 ">
+ <div class="row">
+	 <div class="text-center col-12 col-md-3 col-lg-4">
+ 			<h1>Perfil </h1>
+ 			<h2><?=$usuario['name']?></h2>
+ 			<img class="img-fluid"style="" src="<?=$usuario['imagen']?>" width="250">
+ <br>
+ 			<h4><?= $usuario['pais'] ?></h4>
+ 		</div>
+ <div class='p-2 col-12 col-md-8 col-lg-8'>
+                     <form class="form-control m-2 p-5 margin-auto" enctype="multipart/form-data"  method="post">
 
-  <div class="item2 text-center">
-			<h1>Perfil </h1>
-			<h2><?=$usuario['name']?></h2>
-			<img style="" src="<?=$usuario['imagen']?>" width="300">
-<br>
-			<h4><?= $usuario['pais'] ?></h4>
-		</div>
-<div class='item3 p-2 '>
-                    <form class="form-control p-5 margin-auto" enctype="multipart/form-data"  method="post">
+                     <label class="input-group input-group-lg"><strong>Nombre y apellido</strong></label>
+                     <input type="text" name="name" class="w-100 mb-3 mt-2 form-control"  value="">
 
-                    <label class="input-group input-group-lg"><strong>Nombre y apellido</strong></label>
-                    <input type="text" name="name" class="w-100 mb-3 mt-2"  value="">
+                     <label class="input-group input-group-lg "><strong>Ciudad de nacimiento</strong></label>
+                     <input type="text" name="name" class="w-100 mb-3 mt-2 form-control"  value="">
 
-                    <label class="input-group input-group-lg "><strong>Ciudad de nacimiento</strong></label>
-                    <input type="text" name="name" class="w-100 mb-3 mt-2"  value="">
+                       <label class="input-group input-group-lg "><strong>Ocupación</strong></label>
+                       <input type="text" name="" class="w-100 mb-3 mt-2 form-control"  value="">
 
-                      <label class="input-group input-group-lg "><strong>Ocupación</strong></label>
-                      <input type="text" name="" class="w-100 mb-3 mt-2"  value="">
+                       <label class="input-group input-group-lg "><strong>Fecha de nacimiento</strong></label>
+                        <input type="date" name="" class="w-100 mb-3 mt-2 form-control" value="">
 
-                                            <label class="input-group input-group-lg "><strong>Fecha de nacimiento</strong></label>
-                                            <input type="date" name="" class="w-100 mb-3 mt-2" value="">
-
-      <span class="pseudo-label"><strong>Idiomas que hablo</strong></span>
-        <div class="container-inline actions">
-      <select name='language'>
-<option value="ach" selected>Español</option>
-<option value="afr">Inglés</option>
-<option value="ain">Francés</option>
-<option value="aka">Portugués</option>
-<option value="alq">Chino</option>
-<option value="amh">Japonés</option>
-<option value="aoc">Koreano</option>
-<option value="ara">Alemán</option>
-<option value="arc">Arabe</option>
-<option value="arg">Italiano</option>
-<option value="arn">Hebreo</option>
-<option value="ase">Polaco</option>
-<option value="asf">Turco</option>
-<option value="asq">Guaraní</option>
-<option value="ast">Noruego</option>
-<option value="ava">Rumano</option>
-</select>
-  <a href="#!" class="badge badge-primary">Añadir idioma</a>
-        </div>
-        <br>
-<div>
-	<label class="input-group input-group-lg "><strong>Intereses</strong></label>
-	<input type="text" name="name" class="w-100 mb-3 mt-2"  value="" placeholder="Agrega tus intereses separados por una coma">
-</div>
-<div>
-<label class="input-group input-group-lg"><strong>Otros</strong></label>
-<textarea cols="100%" id="" name="" rows="8">Más información sobre mí
-</textarea>
-</div>
-
+       <span class="pseudo-label"><strong>Idiomas que hablo</strong></span>
+         <div class="container-inline actions">
+       <select name='language'>
+ <option value="ach" selected>Español</option>
+ <option value="afr">Inglés</option>
+ <option value="ain">Francés</option>
+ <option value="aka">Portugués</option>
+ <option value="alq">Chino</option>
+ <option value="amh">Japonés</option>
+ <option value="aoc">Koreano</option>
+ <option value="ara">Alemán</option>
+ <option value="arc">Arabe</option>
+ <option value="arg">Italiano</option>
+ <option value="arn">Hebreo</option>
+ <option value="ase">Polaco</option>
+ <option value="asf">Turco</option>
+ <option value="asq">Guaraní</option>
+ <option value="ast">Noruego</option>
+ <option value="ava">Rumano</option>
+ </select>
+   <a href="#!" class="badge badge-primary">Añadir idioma</a>
+         </div>
+         <br>
  <div>
-	<a href="perfil.php" class="btn btn-lg btn-primary btn-block btn-signin mt-3 mb-3">Guardar cambios</a>
+ 	<label class="input-group input-group-lg "><strong>Intereses</strong></label>
+ 	<input type="text" name="name" class="w-100 mb-3 mt-2 form-control"  value="" placeholder="Agrega tus intereses separados por una coma">
+ </div>
+ <div>
+ <label class="input-group input-group-lg"><strong>Otros</strong></label>
+ <textarea cols="82%"  rows="6"class="form-control">
+ </textarea>
  </div>
 
-</form>
+  <div>
+ 	<a href="perfil.php" class="btn btn-lg btn-primary btn-block btn-signin mt-3 mb-3">Guardar cambios</a>
+  </div>
 
-</div>
+ </form>
+
+ </div>
+
+ </div>
+
 </div>
 </div>
 <!-- FOOTER FOOTER FOOTER FOOTERFOOTER FOOTERFOOTER -->

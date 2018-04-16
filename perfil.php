@@ -17,6 +17,7 @@ require_once('funciones.php');
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
+
         p {
             font-size: 1.2em;
         }
@@ -46,7 +47,8 @@ require_once('funciones.php');
 </head>
 
 <body>
-  <header class="fixed-top row bg-blue justify-content-md-between mb-3 p-1 pl-2 d-flex align-items-center">
+	<!-- le saque el fixed-top al header -->
+  <header class="bg-blue justify-content-md-between mb-3 p-1 pl-2 d-flex align-items-center">
       <div class="col-12 col-sm-6 col-md-2 col-lg-3 ">
           <img alt="logotipo" src="imagenes/logo.png" class="d-block logotipo">
           </div>
@@ -74,8 +76,8 @@ require_once('funciones.php');
                       <li><a href="#">idioma</a></li>
                     </ul>
               </nav>
-              <a href="configperfil.php" class="btn  mt-1">Configuración</a>
-	              <a href="logout.php" class="btn  mt-1">Cerrar Sesión</a>
+              <a href="configperfil.php" class="btn btn-outline-light mt-1">Configuración</a>
+	              <a href="logout.php" class="btn btn-outline-light  mt-1">Cerrar Sesión</a>
 
           </div>
       </div>
@@ -83,23 +85,27 @@ require_once('funciones.php');
   </header>
 <!-- PROFILE PROFILE PROFILE -->
 
-<div class="grid-container p-5 mt-5">
+<!--   sheiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii -->
 
-  <div class="item2 text-center">
+<div class="grid-container p-5 ">
+<div class="row">
+	<div class="item2 text-center   col-12 col-sm-6 col-md-5 col-lg-4">
 		<h1>Perfil </h1>
 		<h2><?=$usuario['name']?></h2>
-			<img style="" src="<?=$usuario['imagen']?>" width="300">
+			<img src="<?=$usuario['imagen']?>" width="200">
 <br>
 			<h4><?= $usuario['pais'] ?></h4>
 		</div>
-<div class='item3 p-2 bg-white'>
+<div class='item3 p-2 bg-white col-12 col-sm-6 col-md-7 col-lg-8'>
 Tu perfil se encuentra vacío. Completalo desde el botón de configuración.
 <br><br><br>
 <em>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</em>
 </div>
 </div>
+
+</div>
 <!-- FOOTER FOOTER FOOTER FOOTERFOOTER FOOTERFOOTER -->
-  <footer class="bg-blue margin mt-3 text-white text-center">
+  <footer class="bg-blue margin mt-3 text-white text-center ">
     <a name="ancla-contacto"></a>
       <p class="pt-2">SEGUINOS</p>
       <a href="https://www.facebook.com/" target="_blank"><span class="ion-social-facebook-outline m-2"></span></a>
