@@ -1,5 +1,8 @@
 <?php
 require_once("funciones.php");
+require_once('usuarios.php');
+require_once('validaciones.php');
+
 
 if (estaLogueado()) {
 		header('location: perfil.php');
@@ -12,11 +15,10 @@ if (estaLogueado()) {
 	// Si envían algo por $_POST
 	if ($_POST) {
 		$email = trim($_POST['e-mail']);
-		$errores = validarLogin($_POST);
+		$errores = Validaciones::validarLogin($_POST);
 		if (empty($errores)) {
-			$usuario = existeMail($email);
-			loguear($usuario);
-			// Seteo la cookie
+			$usuario = Usuarios::existeMail($email);
+			loguear($usuario);  	// Seteo la cookie
 			if (isset($_POST["recordar"])) {
 	        setcookie('id', $usuario['id'], time() + 3600 * 24 * 30);
 	      }
@@ -55,7 +57,7 @@ if (estaLogueado()) {
           <option value="fr_FR">Français</option>
           <option value="pt_BR">Portugués</option>
           <option value="de_DE">Deutsch</option></select>
-          <a href="faq.php" class="p-2"> PREGUNTAS FRECUENTES </a>
+          <a href="faq.html" class="p-2"> PREGUNTAS FRECUENTES </a>
           <a href="#" class="p-2"> SEGURIDAD </a>
           <a href="#ancla-contacto" class="p-2"> CONTACTO </a>
       </div>
@@ -66,7 +68,7 @@ if (estaLogueado()) {
                               </button>
               <nav class="main-nav d-md-none d-lg-none" style="display: none;">
                   <ul>
-                      <li><a href="faq.php">preguntas frecuentes</a></li>
+                      <li><a href="faq.html">preguntas frecuentes</a></li>
                       <li><a href="#">seguridad</a></li>
                       <li><a href="#ancla-contacto">contacto</a></li>
                       <li><a href="#">idioma</a></li>
@@ -83,33 +85,46 @@ if (estaLogueado()) {
 
 
 <div class="contenido">
+  <?php if (!empty($errores)): ?>
+			<div class="div-errores alert alert-danger">
+				<ul>
+					<?php foreach ($errores as $value): ?>
+					<li><?=$value?></li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		<?php endif; ?>
+
+
+
+
           <div class="contenedor-registracion container-fluid imgFondo d-flex flex-column justify-content-center align-items-center w-100">
               <div class="p-4">
 
                 <form class="form-control p-5 margin-auto" method="post">
 									<?php
 									  	if (isset($_GET['primeraVez'])) {
-									  		echo "<div class='alert alert-info text-center'>
-    <strong><h3>¡Gracias por registrarte!</h3></strong>
-		<h5>Iniciá sesión para acceder a tu perfil</h5></div>";
-		}
+									  		echo "<h3>Gracias por registrarte</h3>";
+									  	}
 									?>
                   <h2 class="mb-3 text-center">Bienvenido</h2>
                     <label class="input-group input-group-lg"> Ingresa tu e-mail o nombre de usuario</label>
                     <input type="email" name="e-mail" class="w-100 mb-3 mt-2"   value="<?=$email?>">
                     <?php if (isset($errores['email'])): ?>
-											<div class="alert alert-danger"> <?=$errores['email'];?>
-              									<b class="ion-android-alert"></b>
-              								</div>
+              								<span style="color: red;">
+              									<b class="glyphicon glyphicon-exclamation-sign"></b>
+              									<?=$errores['email'];?>
+              								</span>
 							      <?php endif; ?>
 
                     <label class="input-group input-group-lg ">Ingresa tu contraseña</label>
                     <input type="password" name="password" class="w-100 mb-3 mt-2"> <!-- placeholder="***********"  ESTO LO SAQUE ASI NO ME MUESTRA LOS ASTERISCOS POR AHORA      ESTABA ADENTRO DEL IMPUT -->
-										<?php if (isset($errores['pass'])): ?>
-											<div class="alert alert-danger"> <?=$errores['pass'];?>
-																<b class="ion-android-alert"></b>
-															</div>
-										<?php endif; ?>
+                    <?php if (isset($errores['pass'])): ?>
+        								<span style="color: red;">
+        									<b class="glyphicon glyphicon-exclamation-sign"></b>
+        									<?=$errores['pass'];?>
+        								</span>
+							     <?php endif; ?>
 
                   <button type="submit" class="btn btn-lg btn-primary btn-block btn-signin mt-3 mb-3">Log in </button>
                     <div class="align-items-center">

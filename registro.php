@@ -1,5 +1,11 @@
 <?php
 require_once('funciones.php');
+require_once('usuario.php');
+require_once('usuarios.php');
+require_once('validaciones.php');
+
+
+$data=$_POST;
 
 if (estaLogueado()) {
 		header('location: perfil.php');
@@ -22,17 +28,21 @@ if ($_POST) {
     $username = trim($_POST['username']);
     $imagen = $_FILES["imagen"];
 
-    $errores = validar($_POST, $imagen);
+    $errores = Validaciones::validarDatos($_POST, $imagen);
 
     if (empty($errores)) {
-    // if (count($errores) == 0) {
-       //  guardarImagen($imagen);
-      //  $usuario = crearUsuario($_POST, $_FILES["imagen"]);     asi estaba antes de que crearamos todas las funciones
-      //  $userEnJSON = json_encode($usuario);
-      //  var_dump($userEnJSON);
-      //  file_put_contents('usuarios.json', $userEnJSON . PHP_EOL, FILE_APPEND);
-      $usuario=guardarUsuario($_POST,$_FILES['imagen']); // aca modifique $imagen por $_FILES['imagen']
-			header('location: inicio-sesion.php?primeraVez=ok'); exit;
+      //      $usuario = new Usuario(Usuarios::traerUltimoId(), $data['name'], $data['email'], $data['pais'], $data['username'], password_hash($data['pass'], PASSWORD_DEFAULT));
+      //Usuario::guardar($usuario);  esta puso javi y lo cambie
+			$usuario = new Usuario();
+			$usuario->setId(Usuarios::traerUltimoId());
+			$usuario->setName($data['name']);
+			$usuario->setEmail($data['email']);
+			$usuario->setPais($data['pais']);
+			$usuario->setUsername($data['username']);
+			$usuario->setPassword(password_hash($data['pass'], PASSWORD_DEFAULT));
+			$usuario->guardar($usuario);
+			header('location: inicio-sesion.php?primeraVez=ok');
+			exit;
     }
 }
 
@@ -53,7 +63,8 @@ if ($_POST) {
 </head>
 
 <body>
-  <header class="fixed-top row bg-blue justify-content-md-between mb-3 p-1 pl-2 d-flex align-items-center">
+  <header class="fixed-top row bg-blue justify-content-md-between mb-3 p-1 pl-2 d-flex align-items-center"
+  style="display: none !important;"> <!-- ACA JAVI LE PUSO DISPLAY NONE PARA QUE PODAMOS VER LOS ERRORES SINO EL HEADER LO TAPA Y NO PODEMOS LEER -->
       <div class="col-12 col-sm-6 col-md-2 col-lg-3 ">
           <img alt="logotipo" src="imagenes/logo.png" class="d-block logotipo">
           </div>
@@ -102,39 +113,36 @@ if ($_POST) {
 
                 <form class="form-control p-5 margin-auto" enctype="multipart/form-data"  method="post">
 									<h2 class="mb-3 text-center">Registro</h2>
-									 									</button>
+
                   <label class="input-group input-group-lg "> Nombre y Apellido</label>
-                  <input type="text" name="name" class="w-100 mb-3 mt-2"  value="<?=$name?>"><?php if (isset($errores['name'])): ?>
-										<div class="alert alert-warning"><?=$errores['name'];?></div>
+                  <input type="text" name="name" class="w-100 mb-3 mt-2"  value="<?=$name?>">
+                  <?php if (isset($errores['name'])): ?>
+      				<span style="color: red;"><?=$errores['name'];?></span>
       			<?php endif; ?>
 
                     <label class="input-group input-group-lg "> Ingresa tu e-mail</label>
                     <input type="email" name="email" class="w-100 mb-3 mt-2"  value="<?=$email?>">
                     <?php if (isset($errores['email'])): ?>
-											<div class="alert alert-warning">
-						<?=$errores['email'];?></div>
-
+        				<span style="color: red;"><?=$errores['email'];?></span>
         			<?php endif; ?>
 
                     <label class="input-group input-group-lg "> Crear nombre de usuario</label>
                     <input type="text" name="username" class="w-100 mb-3 mt-2" value="<?=$username?>">
 
                     <?php if (isset($errores['username'])): ?>
-											<div class="alert alert-warning">	<?=$errores['username'];?></div>
-					        			<?php endif; ?>
+        				<span style="color: red;"><?=$errores['username'];?></span>
+        			<?php endif; ?>
 
                     <label class="input-group input-group-lg ">Ingresa una contraseña</label>
                     <input type="password" name="pass" class="w-100 mb-3 mt-2" value="">
                     <?php if (isset($errores['pass'])): ?>
-											<div class="alert alert-warning">	<?=$errores['pass'];?></div>
-
+                <span style="color: red;"><?=$errores['pass'];?></span>
               <?php endif; ?>
 
                     <label class="input-group input-group-lg">Confirma la contraseña</label>
                     <input type="password" name="rpass" class="w-100 mb-3 mt-2" value="">
                     <?php if (isset($errores['pass'])): ?>
-			<div class="alert alert-warning">	<?=$errores['pass'];?></div>
-
+                <span style="color: red;"><?=$errores['pass'];?></span>
               <?php endif; ?>
                     <div class="align-items-center">
                       <div class="form-group">
@@ -150,15 +158,14 @@ if ($_POST) {
                               <?php endforeach; ?>
                           </select>
                           <?php if (isset($errores['pais'])): ?>
-														<div class="alert alert-warning"><?=$errores['pais'];?></div>
-
+                      <span style="color: red;"><?=$errores['pais'];?></span>
                       <?php endif; ?>
                       </div>
 
                   <label for="">Subí tu foto de perfil </label><br>
                   <input type="file" name="imagen" value="">
                   <?php if (isset($errores['imagen'])): ?>
-										<div class="alert alert-warning"><?=$errores['imagen'];?></div>
+              <span style="color: red;"><?=$errores['imagen'];?></span>
             <?php endif; ?>
 
 

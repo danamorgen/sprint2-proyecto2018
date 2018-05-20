@@ -23,43 +23,38 @@ function crearUsuario($data, $imagen){
 function guardarImagen($imagen){   // aca modifique $imagen antes estaba $_FILES[$imagen]
     // $errores = [];
    if ($imagen['error'] == UPLOAD_ERR_OK) {
-
-     $nombreArchivo = $imagen['name'];
-
-     $ext = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-
-     $archivoFisico = $imagen['tmp_name'];
-     // Pregunto si la extensión es la deseada
-    // if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {   VAMOS A ELIMINAR ESTO PORQUE EN TEORIA YA LO COMPRUEBA EN LA FUNCION VALIDAR
-       // Armo la ruta donde queda gurdada la imagen
-       $direccionReal = dirname(__FILE__);
-       $rutaFinalConNombre = $direccionReal . '/imagenUsuarios/' . $_POST['email'] . '.' . $ext;
-       // Subo la imagen definitivamente
-       move_uploaded_file($archivoFisico, $rutaFinalConNombre);
-                  /* } else {
-                       $errores['imagen'] = 'El formato tiene que ser JPG, JPEG, PNG o GIF';
-                     }
-                   } else {
-                     // Genero error si no se puede subir
-                     $errores['imagen'] = 'No subiste nada';
-                   }
-                    return $errores;*/
-                    // VAMOS A PROBAR HACIENDO QUE guardarImagen no devuelva nada simplemente se dedique a guardar la imagen
+				     $nombreArchivo = $imagen['name'];
+				     $ext = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+				     $archivoFisico = $imagen['tmp_name'];
+				     // Pregunto si la extensión es la deseada
+				    // if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {   VAMOS A ELIMINAR ESTO PORQUE EN TEORIA YA LO COMPRUEBA EN LA FUNCION VALIDAR
+				       // Armo la ruta donde queda gurdada la imagen
+				       $direccionReal = dirname(__FILE__);
+				       $rutaFinalConNombre = $direccionReal . '/imagenUsuarios/' . $_POST['email'] . '.' . $ext;
+				       // Subo la imagen definitivamente
+				       move_uploaded_file($archivoFisico, $rutaFinalConNombre);
+				                  /* } else {
+				                       $errores['imagen'] = 'El formato tiene que ser JPG, JPEG, PNG o GIF';
+				                     }
+				                   } else {
+				                     // Genero error si no se puede subir
+				                     $errores['imagen'] = 'No subiste nada';
+				                   }
+				                    return $errores;*/
+				                    // VAMOS A PROBAR HACIENDO QUE guardarImagen no devuelva nada simplemente se dedique a guardar la imagen
 
  }
 }
 
-function guardarUsuario($data, $imagen){
-   $usuario = crearUsuario($data, $imagen);
+function guardarUsuario($data, $imagen){  /*ACA HAY ALGO PARA PREGUNTAR*/
+      $usuario = crearUsuario($data, $imagen);
    		$usuarioJSON = json_encode($usuario);
-
    		file_put_contents('usuarios.json', $usuarioJSON . PHP_EOL, FILE_APPEND);
-   		// Devuelvo al usuario para poder auto loguearlo después del registro
+   		// Devuelvo al usuario para poder auto loguearlo después del registro   MIRAR ACAAAAAAAAAAAAAAAAAAAAAAAAAAA
    		return $usuario;
 }
 
 function traerTodos(){ /*trae todos los usuarios que estan en el json*/
-  // Traigo la data de todos los usuarios de 'usuarios.json'
   		$todosJson = file_get_contents('usuarios.json');
   		// Esto me arma un array con todos los usuarios
   		$usuariosArray = explode(PHP_EOL, $todosJson);    // creo que usuariosArray tiene solo 2 posiciones la ultima es vacia
@@ -72,46 +67,27 @@ function traerTodos(){ /*trae todos los usuarios que estan en el json*/
   			$todosPHP[] = json_decode($usuario, true);   // PREGUNTAR PORQUE HACEMOS ESTO EN UN foreach !!!!!!!!!!!!!!!!!!!!!!!!!!!
   		}
   		return $todosPHP;
-
 }
 
 function traerUltimoId(){
   $arrayDeUsuarios=traerTodos();
-
   if(empty($arrayDeUsuarios)){
       return 1;
   }
-
-  		$elUltimo = array_pop($arrayDeUsuarios);
-  		$id = $elUltimo['id'];
-  		return $id + 1;
+  $elUltimo = array_pop($arrayDeUsuarios);
+  $id = $elUltimo['id'];
+  return $id + 1;
 }
 
 function existeMail($email){
-
-  		$todos = traerTodos();
-
-  		foreach ($todos as $unUsuario) {
+  $todos = traerTodos();
+  foreach ($todos as $unUsuario) {
   			if ($unUsuario['email'] == $email) {
-  				return $unUsuario;
-  			}
-  		}
-  		return false;
-
-}
-
-function existeUsuario($username){
-
-  		$todos = traerTodos();
-
-  		foreach ($todos as $unUsuario) {
-  			if ($unUsuario['username'] == $username) {
-  				return $unUsuario;
-  			}
-  		}
-  		return false;
-
-}
+  																					return $unUsuario;
+  																				 }
+  	                              }
+	return false;
+}  /* SI EXISTE ME DEVUELVE EL USUARIO*/
 
 function validar($data, $imagen){
   global $errores;     // ME CONVIENE ESTO O SIMPLEMENTE DECLARAR UNA VARIABLE LOCAL??? PREG
@@ -126,14 +102,9 @@ function validar($data, $imagen){
   if ($name == '') {
       $errores['name'] = "Completa tu nombre";
   }
-
-
   if ($username == '') {
       $errores['username'] = "Completa tu nombre de usuario";
-  } elseif (existeUsuario($username)) {
-		$errores['username'] = "El usuario ya existe";
-	}
-
+  }
   if ($pais == '') {
       $errores['pais'] = "Completa tu país de origen";
   }
@@ -144,18 +115,11 @@ function validar($data, $imagen){
   } elseif (existeMail($email)) {
     $errores['email'] = "Este mail ya se encuentra registrado";
   }
-
-
-	//agrega validacion de mas de 7 caracteres pass
-	 if (strlen($pass)<7){
-	   $errores['pass']="El password debe tener minimo 7 caracteres";
-	 }
-	if ($pass == '' || $rpass == '') {
+  if ($pass == '' || $rpass == '') {
       $errores['pass'] = "Por favor completa tu password";
-  } elseif ($pass != $rpass) {
+  }elseif ($pass != $rpass) {
       $errores['pass'] = "Las contraseñas no coinciden";
-  } // elseif (!password_verify($pass, $usuario["pass"])) {
-    // $errores['pass'] = "Error de credenciales";   <-- NO FUNCA!!!
+  }
 
   if($imagen["error"] !== UPLOAD_ERR_OK){
           $errores["imagen"] = 'Por favor subí tu foto de perfil';
@@ -177,20 +141,19 @@ function validarLogin($data){  // ACA HAY ALGO QUE TENGO QUE PREGUNTAR
 		$email = trim($data['e-mail']);
 		$pass = trim($data['password']);
 		if ($email == '') {
-			$arrayADevolver['email'] = 'Completá tu email';
-		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$arrayADevolver['email'] = 'Poné un formato de email válido';
-		} elseif (!$usuario = existeMail($email)) {   //                             <--- MIRAR ACA ME GENERA DUDA
-			$arrayADevolver['email'] = 'Este email no está registrado';
-		} else {
-			// Si el mail existe, me guardo al usuario dueño del mismo
-			// $usuario = existeEmail($email);
-
- 			// Pregunto si coindice la password escrita con la guardada en el JSON
-      	if (!password_verify($pass, $usuario["pass"])) {
-         	$arrayADevolver['pass'] = "Credenciales incorrectas";
-      	}
-		}
+								$arrayADevolver['email'] = 'Completá tu email';
+											} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+																										$arrayADevolver['email'] = 'Poné un formato de email válido';
+																									} elseif (!$usuario= existeMail($email)) {   //  <--- MIRAR ACA ME GENERA DUDA
+              																		/*  SI NO EXISTE EL MAIL   !false= false*/
+																										$arrayADevolver['email'] = 'Este email no está registrado';
+																																						} else {
+																											// Si el mail existe, me guardo al usuario dueño del mismo
+																										 // $usuario = existeMail($email);   //Esta demas esta creo
+/* el $usuario=existeMail se ejecuta igual no?*/		  	if (!password_verify($pass, $usuario["pass"])) {
+																	         	$arrayADevolver['pass'] = "Credenciales incorrectas";
+																	      	}
+																				}
 		return $arrayADevolver;
 }
 
@@ -207,7 +170,6 @@ function loguear($usuario) {
 	}
 
   function traerPorId($id){
-		// me traigo todos los usuarios
 		$todos = traerTodos();
 		// Recorro el array de todos los usuarios
 		foreach ($todos as $usuario) {

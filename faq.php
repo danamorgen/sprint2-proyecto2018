@@ -38,14 +38,14 @@
                               </button>
               <nav class="main-nav d-md-none d-lg-none" style="display: none;">
                   <ul>
-                      <li><a href="index.php">inicio</a></li>
+                      <li><a href="index.html">inicio</a></li>
                       <li><a href="#">seguridad</a></li>
                       <li><a href="#ancla-contacto">contacto</a></li>
                       <li><a href="#">idioma</a></li>
                     </ul>
               </nav>
               <a href="registro.php" class="btn btn-outline-light mt-1">Registrarse</a>
-              <a href="inicio-sesion.php" class="btn btn-outline-light mt-1">Iniciar Sesión</a>
+              <a href="inicio-sesion.html" class="btn btn-outline-light mt-1">Iniciar Sesión</a>
 
           </div>
       </div>

@@ -37,7 +37,7 @@
                           			</button>
                 <nav class="main-nav d-md-none d-lg-none" style="display: none;">
                     <ul>
-                        <li><a href="faq.php">preguntas frecuentes</a></li>
+                        <li><a href="faq.html">preguntas frecuentes</a></li>
                         <li><a href="#">seguridad</a></li>
                         <li><a href="#ancla-contacto">contacto</a></li>
                         <li><a href="#">idioma</a></li>
