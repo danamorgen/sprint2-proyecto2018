@@ -159,6 +159,7 @@ function validarLogin($data){  // ACA HAY ALGO QUE TENGO QUE PREGUNTAR
 
 function loguear($usuario) {
 		// Guardo en $_SESSION el ID del USUARIO
+		setcookie('id', $usuario['id'], time() + 3600 * 24 * 30);
 	   $_SESSION['id'] = $usuario['id'];
 		header('location: perfil.php');
 		exit;
