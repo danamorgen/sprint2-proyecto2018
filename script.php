@@ -1,7 +1,7 @@
 <?php
-?>
-
-<!DOCTYPE html>
+require_once('dbMySql.php');
+$dbMYSQL = new dbMySql();
+ ?><!DOCTYPE html>
 <html>
 
 <head>
@@ -59,14 +59,27 @@
 
 <section class="menu">
  <ul>
- <li>  <a href="dbMySql.php">CREAR BASE DE DATOS</a> </li>
+ <li>  <a href="script.php?cdb=ok">CREAR BASE DE DATOS</a> </li>
  <?php if (isset($_GET['cdb'])) {
+    $dbMYSQL->my_db();
     echo "<div class='alert alert-info text-center'>
-        <strong><h3>¡Base de datos creada exitosamente!</h3></strong>
+        <strong><h3>¡".$dbMYSQL->getMessage()."!</h3></strong>
         </div>";
        } ?>
- <li>  <a href="#">CREAR TABLAS</a> </li>
- <li>  <a href="#">MIGRAR USUARIOS</a> </li>
+ <li>  <a href="script.php?lalala=ok">CREAR TABLAS</a> </li>
+ <?php if (isset($_GET['lalala'])) {
+   $dbMYSQL->createTable();
+    echo "<div class='alert alert-info text-center'>
+        <strong><h3>¡".$dbMYSQL->getMessage()."!</h3></strong>
+        </div>";
+       } ?>
+ <li>  <a href="script.php?lol=ok" name= "migrar">MIGRAR USUARIOS</a> </li>
+ <?php if (isset($_GET['lol'])) {
+    $dbMYSQL->migrationToMySql();
+    echo "<div class='alert alert-info text-center'>
+        <strong><h3>¡Migracion de datos exitosa!</h3></strong>
+        </div>";
+       } ?>
  </ul>
 </section>
 

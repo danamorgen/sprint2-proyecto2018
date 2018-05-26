@@ -2,7 +2,7 @@
 
 class DB {
 
-private $archivo;
+protected $archivo;
 
 //public abstract function crearBase();
 
